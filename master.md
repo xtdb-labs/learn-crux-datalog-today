@@ -377,8 +377,6 @@ Crux also supports queries in an alternative "vector" format:
 
 However, in this tutorial we will use the map format. Also note that Crux doesn't not require logical variables to be preceded by `?` although you may use this convention if you wish.
 
-We'll go over the specific parts of the query later, but first let's try to run it.
-
 ## Exercises
 
 Q1. Find all the movie titles in the database
