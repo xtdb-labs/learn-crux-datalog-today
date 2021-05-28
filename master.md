@@ -29,7 +29,7 @@ You need to get Crux running before you can use it. Here we are using Clojure on
 (require '[crux.api :as crux])
 ```
 
-Next we need some data. Crux interpets maps as "documents", which require no pre-defined schema, they only need a valid ID attribute. In the data below (which is defined using edn, and fully explained in the section) we are using negative integers as IDs and any top-level attributes that refer to these integers can be interpreted in an ad-hoc way and traversed by the query engine - this capability is known as "schema-on-read".
+Next we need some data. Crux interprets maps as "documents", which require no predefined schema, they only need a valid ID attribute. In the data below (which is defined using edn, and fully explained in the section) we are using negative integers as IDs and any top-level attributes that refer to these integers can be interpreted in an ad-hoc way and traversed by the query engine - this capability is known as "schema-on-read".
 
 This vector of maps contains two kinds of documents, documents relating to people (actors and directors), and documents relating to movies. As a convention to aid human interpretation, all persons have IDs like `-1XX` and all movies have IDs like `-2XX`. Many ID value types are supported, such as strings and UUIDs, which may well be more appropriate in a real application.
 
@@ -522,7 +522,7 @@ multiple places, the query engine requires it to be bound to the same
 value in each place. Therefore, this query will only find movie titles
 for movies made in 1987.
 
-The order of the data patterns does not matter (Crux ignore the user-provided clause ordering), so the previous query could just as well have been written this way:
+The order of the data patterns does not matter (Crux will ignore the user-provided clause ordering), so the previous query could just as well have been written this way:
 
 ```clojure
 (q '{:find [title]
@@ -636,7 +636,7 @@ Looking at this query:
 It would be great if we could reuse this query to find movie
 titles for any actor and not just for "Sylvester Stallone". This is
 possible with an `:in` clause, which provides the query with input
-parameters, much in the same way that function or method arguments does
+parameters, much in the same way that function or method arguments do
 in your programming language.
 
 Here's that query with an input parameter for the actor:
