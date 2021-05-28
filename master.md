@@ -640,7 +640,7 @@ Looking at this query:
 It would be great if we could reuse this query to find movie
 titles for any actor and not just for "Sylvester Stallone". This is
 possible with an `:in` clause, which provides the query with input
-parameters, much in the same way that function or method arguments does
+parameters, much in the same way that function or method arguments do
 in your programming language.
 
 Here's that query with an input parameter for the actor:
