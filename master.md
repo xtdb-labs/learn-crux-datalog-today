@@ -4,7 +4,7 @@ Learn Crux Datalog Today is derived from the classic [learndatalogtoday.org](htt
 
 You can follow along by hitting the "Remix" button on the toolbar to start your own interactive session running entirely on the Nextjournal platform, or you can copy the steps into a suitable Clojure REPL running locally on your machine. You could also use curl (or similar) to send the data and queries in this tutorial via HTTP to a pre-built Docker image.
 
-The `.md` source file for this notebook is available on [GitHub](https://github.com/crux-labs/learn-crux-datalog-today).
+The `master.md` source file for this notebook is available on [GitHub](https://github.com/crux-labs/learn-crux-datalog-today).
 
 [Eclipse Public License - Version 1.0](https://github.com/crux-labs/learn-crux-datalog-today/blob/master/LICENSE.html)
 
@@ -14,7 +14,7 @@ Thank you Jonas and contributors for freely licensing your excellent materials!
 
 # Runtime Setup
 
-You need to get Crux running before you can use it. Here we are using Clojure on the JVM and using Crux locally, as an embedded in-memory library, but the Datalog query API is identical and all these queries would work equally over the network via HTTP and the Java/Clojure client library).
+You need to get Crux running before you can use it. Here we are using Clojure on the JVM and running Crux locally, as an embedded in-memory library. However, the Datalog query API is identical for all clients and all these queries would work equally well over the network via HTTP and the Java/Clojure client library.
 
 ```edn no-exec
 {:deps
@@ -29,9 +29,9 @@ You need to get Crux running before you can use it. Here we are using Clojure on
 (require '[crux.api :as crux])
 ```
 
-Next we need some data. Crux interpets maps as "documents", which require no pre-defined schema, they only need a valid ID attribute. In the data below (which is defined using edn, and fully explained in the section) we are using negative integers as IDs and any top-level attributes that refer to these integers can be interpreted in an ad-hoc way and traversed by the query engine - this capability is known as "schema-on-read".
+Next we need some data. Crux interprets maps as "documents." These require no pre-defined schema -- they only need a valid ID attribute. In the data below (which is defined using edn, and fully explained in the section) we are using negative integers as IDs. Any top-level attributes that refer to these integers can be interpreted in an ad-hoc way and traversed by the query engine -- this capability is known as "schema-on-read".
 
-This vector of maps contains two kinds of documents, documents relating to people (actors and directors), and documents relating to movies. As a convention to aid human interpretation, all persons have IDs like `-1XX` and all movies have IDs like `-2XX`. Many ID value types are supported, such as strings and UUIDs, which may well be more appropriate in a real application.
+This vector of maps contains two kinds of documents: documents relating to people (actors and directors) and documents relating to movies. As a convention to aid human interpretation, all persons have IDs like `-1XX` and all movies have IDs like `-2XX`. Many ID value types are supported, such as strings and UUIDs, which may be more appropriate in a real application.
 
 ```clojure
 (def my-docs
@@ -304,7 +304,7 @@ To start an in-memory instance of Crux, you can use the `start-node` function li
 (def my-node (crux/start-node {}))
 ```
 
-Loading the small amount of data we defined under `my-docs` above can be comfortably done in a single transaction. In practice you will often find benefit to batch `put` operations into groups of 1000 at a time. This code maps over the docs to generate a single transaction containing a `:crux.tx/put` operation per document, submits the transaction. Finally we call the `sync` function to ensure that the documents are fully indexed (and that the transaction has succeeded) before we attempt to run any queries - this is necessary because of Crux's asynchronous design.
+Loading the small amount of data we defined under `my-docs` above can be comfortably done in a single transaction. In practice you will often find benefit to batch `put` operations into groups of 1000 at a time. The following code maps over the docs to generate a single transaction containing one `:crux.tx/put` operation per document, then submits the transaction. Finally we call the `sync` function to ensure that the documents are fully indexed (and that the transaction has succeeded) before we attempt to run any queries -- this is necessary because of Crux's asynchronous design.
 
 ```clojure
 (crux/submit-tx my-node (for [doc my-docs]
@@ -328,7 +328,7 @@ To simplify this `crux/q` call throughout the rest of the tutorial we can define
   (apply crux/q (crux/db my-node) query args))
 ```
 
-Queries can then be executed very trivially:
+Queries can then be executed trivially:
 
 ```clojure
 (q '{:find [title]
@@ -371,11 +371,11 @@ Crux also supports queries in an alternative "vector" format:
 
 ```edn no-exec
     [:find ?title
-     :where 
+     :where
      [_ :movie/title ?title]]
 ```
 
-However, in this tutorial we will use the map format. Also note that Crux doesn't not require logical variables to be preceded by `?` although you may use this convention if you wish.
+However, in this tutorial we will use the map format. Also note that Crux does not require logical variables to be preceded by `?`, although you may use this convention if you wish.
 
 ## Exercises
 
@@ -387,7 +387,7 @@ Q1. Find all the movie titles in the database
 
 ## Solutions
 
-A1. 
+A1.
 
 ```clojure
 (q '{:find [title]
@@ -398,17 +398,20 @@ A1.
 
 The example database we'll use contains *movies* mostly, but not
 exclusively, from the 80s. You'll find information about movie titles,
-release year, directors, cast members etc. As the tutorial advances
+release year, directors, cast members, etc. As the tutorial advances
 we'll learn more about the contents of the database and how it's organized.
 
-The data model in Crux is based around atomic facts called
-triples. A triple is a 3-tuple consisting of
+The data model in Crux is based around _atomic collections of facts._
+Those atomic collections of facts are called _documents._
+The facts are called triples.
+A triple is a 3-tuple consisting of:
 
 * Entity ID
 * Attribute
 * Value
 
-You can think of the database as a flat **set of triples** of the form:
+Although it is the document which is atomic in Crux (and not the triple),
+you can think of the database as a flat **set of triples** of the form:
 
     [<e-id>  <attribute>      <value>          ]
     ...
@@ -416,23 +419,22 @@ You can think of the database as a flat **set of triples** of the form:
     [ -234    :movie/title     "Die Hard"      ]
     [ -234    :movie/year      1987            ]
     [ -235    :movie/title     "Terminator"    ]
-    [ -235    :movie/director  167             ]
+    [ -235    :movie/director  -167            ]
     ...
 
 Note that the last two triples share the same entity ID, which means
-they are facts about the same movie. Note also that the last triple's
+they are facts about the same movie (one _document_).
+Note also that the last triple's
 value is the same as the first triple's entity ID, i.e. the value of
-the `:movie/director` attribute is itself an entity. All the triples in
-the above set were added to the database in the same transaction, so 
-they share the same transaction ID.
+the `:movie/director` attribute is itself an entity.
 
 A query is represented as a map with at least two key-value pairs. In the first
 pair, the key is the keyword `:find`, and the value is a vector of one or more
-**logic variables** (symbols, e.g. `title`). The other key-value pair is the
+**logic variables** (symbols, e.g. `?title` or `e`). The other key-value pair is the
 `:where` keyword key with a vector of clauses which restrict the query to
 triples that match the given **data patterns**.
 
-For example, this query finds all entity-ids that have the attribute 
+For example, this query finds all entity-ids that have the attribute
 `:person/name` with a value of `"Ridley Scott"`:
 
 ```clojure
@@ -483,14 +485,14 @@ Q3. Find the name of all people in the database
 
 ## Solutions
 
-A1. 
+A1.
 
 ```clojure
 (q '{:find [e]
      :where [[e :movie/year 1987]]})
 ```
 
-A2. 
+A2.
 
 ```clojure
 (q '{:find [e]
@@ -507,7 +509,7 @@ A3.
 # Data patterns
 
 In the previous chapter, we looked at **data patterns**, i.e., vectors
-within the `:where` vector, such as `[e :movie/title "Commando"]`. 
+within the `:where` vector, such as `[e :movie/title "Commando"]`.
 There can be many data patterns in a `:where` clause:
 
 ```clojure
@@ -522,7 +524,9 @@ multiple places, the query engine requires it to be bound to the same
 value in each place. Therefore, this query will only find movie titles
 for movies made in 1987.
 
-The order of the data patterns does not matter (Crux ignore the user-provided clause ordering), so the previous query could just as well have been written this way:
+The order of the data patterns does not matter.
+Crux ignores the user-provided clause ordering so the query engine can optimize query execution.
+Thus, the previous query could just as well have been written this way:
 
 ```clojure
 (q '{:find [title]
@@ -541,12 +545,12 @@ entity ID of the movie with "Lethal Weapon" as the title:
 Using the same entity ID at `m`, we can find the cast members with the data
 pattern:
 
-    [m :movie/cast p] 
+    [m :movie/cast p]
 
 In this pattern, `p` will now be (the entity ID of) a person entity, so we can grab the
 actual name with:
 
-    [p :person/name name] 
+    [p :person/name name]
 
 The query will therefore be:
 
@@ -571,7 +575,7 @@ Q2. What year was "Alien" released?
  :where ...}
 ```
 
-Q3. Who directed RoboCop? You will need to use [<movie-eid> :movie/director <person-eid>] to find the director for a movie.
+Q3. Who directed RoboCop? You will need to use `[<movie-eid> :movie/director <person-eid>]` to find the director for a movie.
 
 ```edn no-exec
 {:find [name]
@@ -587,7 +591,7 @@ Q4. Find directors who have directed Arnold Schwarzenegger in a movie.
 
 ## Solutions
 
-A1. 
+A1.
 
 ```clojure
 (q '{:find [title]
@@ -595,7 +599,7 @@ A1.
              [m :movie/year 1985]]})
 ```
 
-A2. 
+A2.
 
 ```clojure
 (q '{:find [year]
@@ -650,7 +654,7 @@ Here's that query with an input parameter for the actor:
    "Sylvester Stallone")
 ```
 
-This query takes one argument: `name` which presumably will be
+This query takes one argument, `name`, which will be
 the name of some actor.
 
 The above query is executed like `(q db query "Sylvester Stallone")`,
@@ -659,7 +663,7 @@ You can have any number of inputs to a query.
 
 In the above query, the input logic variable `name` is bound to a
 scalar - a string in this case. There are four different kinds of
-input: scalars, tuples, collections and relations.
+input: scalars, tuples, collections, and relations.
 
 ## A quick aside
 
@@ -692,7 +696,7 @@ Of course, in this case, you could just as well use two distinct inputs instead:
 
 ## Collections
 
-You can use collection destructuring to implement a kind of logical **or** in your query. Say you want to find all movies directed by either James Cameron **or** Ridley Scott:
+You can use collection destructuring to implement a kind of _logical OR_ in your query. Say you want to find all movies directed by either James Cameron **or** Ridley Scott:
 
 ```clojure
 (q '{:find [title]
@@ -777,7 +781,7 @@ Q4. Write a query that, given an actor name and a relation with movie-title/rati
 
 ## Solutions
 
-A1. 
+A1.
 
 ```clojure
 (q '{:find [title]
@@ -787,7 +791,7 @@ A1.
    1988)
 ```
 
-A2. 
+A2.
 
 ```clojure
 (q '{:find [title year]
@@ -813,7 +817,7 @@ A3.
 ```
 
 A4.
- 
+
 ```clojure
 (q '{:find [title rating]
      :in [name [[title rating]]]
@@ -845,7 +849,7 @@ A4.
 
 # Predicates
 
-So far, we have only been dealing with **data patterns**: 
+So far, we have only been dealing with **data patterns**:
 `[m :movie/year year]`. We have not yet seen a proper way of handling
 questions like "*Find all movies released before 1984*". This is where
 **predicate clauses** come into play.
@@ -873,8 +877,9 @@ can use any Clojure function as a predicate function:
 Clojure functions must be fully namespace-qualified, so if you have defined your
 own predicate `awesome?` you must write it as `(my.namespace/awesome? movie)`.
 All `clojure.core/*` functions may be used as predicates without namespace
-qualification: `<, >, <=, >=, =, not=` and so on. An "allowlist" feature is
-provided to restrict the exact set of predicates available to queries.
+qualification: `<, >, <=, >=, =, not=` and so on. Crux provides a
+["Predicate AllowList"](https://opencrux.com/reference/query-configuration.html#fn-allowlist)
+feature to restrict the exact set of predicates available to queries.
 
 ## Exercises
 
@@ -903,7 +908,7 @@ Q3. Find movies newer than `year` (inclusive) and has a `rating` higher than the
 
 ## Solutions
 
-A1. 
+A1.
 
 ```clojure
 (q '{:find [title]
@@ -914,7 +919,7 @@ A1.
    1979)
 ```
 
-A2. 
+A2.
 
 ```clojure
 (q '{:find [actor]
@@ -961,7 +966,7 @@ A3.
 
 # Transformation functions
 
-**Transformation functions** are pure (= side-effect free) functions or methods
+**Transformation functions** are pure (side-effect free) functions
 which can be used in queries as "function expression" predicates to transform
 values and bind their results to new logic variables. Say, for example, there
 exists an attribute `:person/born` with type `:db.type/instant`. Given the
@@ -993,11 +998,12 @@ A transformation function clause has the shape `[(<fn> <arg1> <arg2> ...) <resul
 * Collection: `[name ...]`
 * Relation: `[[title rating]]`
 
-One thing to be aware of is that transformation functions can't be nested. You can't write
+One thing to be aware of is that transformation functions can't be nested.
+For example, you can't write:
 
     [(f (g x)) a]
 
-instead, you must bind intermediate results in temporary logic variables
+Instead, you must bind intermediate results in temporary logic variables:
 
     [(g x) t]
     [(f t) a]
@@ -1059,7 +1065,7 @@ Aggregate functions such as `sum`, `max` etc. are readily available in Crux's Da
 An aggregate function collects values from multiple triples and returns
 
 * A single value: `min`, `max`, `sum`, `avg`, etc.
-* A collection of values: `(min n d)` `(max n d)` `(sample n e)` etc. where `n` is an integer specifying the size of the collection. 
+* A collection of values: `(min n d)` `(max n d)` `(sample n e)` etc. where `n` is an integer specifying the size of the collection.
 
 ## Exercises
 
@@ -1136,7 +1142,7 @@ in your favorite programming language. Let's create a rule for the three lines a
      [m :movie/title title]]
 
 The first vector is called the *head* of the rule where the first
-symbol is the name of the rule. The rest of the rule is called the *body*. 
+symbol is the name of the rule. The rest of the rule is called the *body*.
 
 You can think of a rule as a kind of function, but remember that this
 is logic programming, so we can use the same rule to:
@@ -1144,7 +1150,7 @@ is logic programming, so we can use the same rule to:
 * find movie titles given an actor name, and
 * find actor names given a movie title.
 
-Put another way, we can use both `name` and `title` in `(actor-movie name title)` for input as well as for output. If we provide values for neither, we'll get all the possible combinations in the database. If we provide values for one or both, it'll constrain the result returned by the query as you'd expect.
+Put another way, we can use both `name` and `title` in `(actor-movie name title)` for input as well as for output. If we provide values for neither, we'll get all the possible combinations in the database. If we provide values for one or both, it will constrain the result returned by the query as you'd expect.
 
 To use the above rule, you simply write the head of the rule instead of the data patterns. Any variable with values already bound will be input, the rest will be output.
 
@@ -1170,7 +1176,7 @@ Now becomes:
 ```
 
 You can write any number of rules, collect them in a vector, and pass them
-to the query engine using the `:rules` key-value pair.
+to the query engine using the `:rules` key, as above.
 
     [[(rule-a a b)
       ...]
@@ -1182,7 +1188,7 @@ You can use [data patterns](/chapter/2), [predicates](/chapter/5),
 [transformation functions](/chapter/6) and calls to other rules in the body of
 a rule.
 
-Rules can also be used as another tool to write logical OR queries, as the
+Rules can also be used as another tool to write _logical OR_ queries, as the
 same rule name can be used several times:
 
     [[(associated-with person movie)
