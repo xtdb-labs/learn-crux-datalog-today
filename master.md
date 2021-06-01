@@ -381,8 +381,9 @@ However, in this tutorial we will use the map format. Also note that Crux does n
 
 Q1. Find all the movie titles in the database
 
-```edn no-exec
-{:find ...}
+```clojure
+;; remove '#_' to uncomment the query
+#_(q '{:find ... })
 ```
 
 ## Solutions
@@ -465,22 +466,25 @@ also elide trailing values in a data pattern. Therefore, the following two queri
 
 Q1. Find the entity ids of movies made in 1987
 
-```edn no-exec
-{:find [e]
- :where ...}
+```clojure
+;; remove '#_' to uncomment the query
+#_(q '{:find [e]
+     :where ...})
 ```
 
 Q2. Find the entity-id and titles of movies in the database
 
-```edn no-exec
-{:find [e title]
- :where ...}
+```clojure
+;; remove '#_' to uncomment the query
+#_(q '{:find [e title]
+     :where ...})
 ```
 
 Q3. Find the name of all people in the database
 
-```edn no-exec
-{:find ...}
+```clojure
+;; remove '#_' to uncomment the query
+#_(q '{:find ...})
 ```
 
 ## Solutions
@@ -563,30 +567,34 @@ The query will therefore be:
 
 Q1. Find movie titles made in 1985
 
-```edn no-exec
-{:find [title]
- :where ...}
+```clojure
+;; remove '#_' to uncomment the query
+#_(q '{:find [title]
+     :where ...})
 ```
 
 Q2. What year was "Alien" released?
 
-```edn no-exec
-{:find [year]
- :where ...}
+```clojure
+;; remove '#_' to uncomment the query
+#_(q '{:find [year]
+     :where ...})
 ```
 
 Q3. Who directed RoboCop? You will need to use `[<movie-eid> :movie/director <person-eid>]` to find the director for a movie.
 
-```edn no-exec
-{:find [name]
- :where ...}
+```clojure
+;; remove '#_' to uncomment the query
+#_(q '{:find [name]
+     :where ...})
 ```
 
 Q4. Find directors who have directed Arnold Schwarzenegger in a movie.
 
-```edn no-exec
-{:find [name]
- :where ...}
+```clojure
+;; remove '#_' to uncomment the query
+#_(q '{:find [name]
+     :where ...})
 ```
 
 ## Solutions
@@ -749,34 +757,38 @@ appear in any of the data patterns in the `:where` clause.
 
 Q1. Find movie title by year
 
-```edn no-exec
-{:find [title]
- :in [year]
- :where ...}
+```clojure
+;; remove '#_' to uncomment the query
+#_(q '{:find [title]
+     :in [year]
+     :where ...})
 ```
 
 Q2. Given a list of movie titles, find the title and the year that movie was released.
 
-```edn no-exec
-{:find [title year]
- :in ...
- :where ...}
+```clojure
+;; remove '#_' to uncomment the query
+#_(q '{:find [title year]
+     :in ...
+     :where ...})
 ```
 
 Q3. Find all movie `title`s where the `actor` and the `director` has worked together
 
-```edn no-exec
-{:find [title]
- :in [actor director]
- :where ...}
+```clojure
+;; remove '#_' to uncomment the query
+#_(q '{:find [title]
+     :in [actor director]
+     :where ...})
 ```
 
 Q4. Write a query that, given an actor name and a relation with movie-title/rating, finds the movie titles and corresponding rating for which that actor was a cast member.
 
-```edn no-exec
-{:find [title rating]
- :in ...
- :where ...}
+```clojure
+;; remove '#_' to uncomment the query
+#_(q '{:find [title rating]
+     :in ...
+     :where ...})
 ```
 
 ## Solutions
@@ -885,25 +897,28 @@ feature to restrict the exact set of predicates available to queries.
 
 Q1. Find movies older than a certain year (inclusive)
 
-```edn no-exec
-{:find [title]
- :in [year]
- :where ...}
+```clojure
+;; remove '#_' to uncomment the query
+#_(q '{:find [title]
+     :in [year]
+     :where ...})
 ```
 
 Q2. Find actors older than Danny Glover
 
-```edn no-exec
-{:find [actor]
- :where ...}
+```clojure
+;; remove '#_' to uncomment the query
+#_(q '{:find [actor]
+     :where ...})
 ```
 
 Q3. Find movies newer than `year` (inclusive) and has a `rating` higher than the one supplied
 
-```edn no-exec
-{:find [title]
- :in [year rating [[title r]]]
- :where ...}
+```clojure
+;; remove '#_' to uncomment the query
+#_(q '{:find [title]
+     :in [year rating [[title r]]]
+     :where ...})
 ```
 
 ## Solutions
@@ -1012,18 +1027,20 @@ Instead, you must bind intermediate results in temporary logic variables:
 
 Q1. Find people by age. Use the function `user/age` to find the age given a birthday and a date representing "today".
 
-```edn no-exec
-{:find [name]
- :in [age today]
- :where ...}
+```clojure
+;; remove '#_' to uncomment the query
+#_(q '{:find [name]
+     :in [age today]
+     :where ...})
 ```
 
 Q2. Find people younger than Bruce Willis and their ages.
 
-```edn no-exec
-{:find [name age]
- :in [today]
- :where ...}
+```clojure
+;; remove '#_' to uncomment the query
+#_(q '{:find [name age]
+     :in [today]
+     :where ...})
 ```
 
 ## Solutions
@@ -1219,23 +1236,25 @@ let's find out in the exercises.
 
 Q1. Write a rule `(movie-year title year)` where `title` is the title of some movie and `year` is that movie's release year.
 
-```edn no-exec
-{:find [title]
- :where [(movie-year title 1991)]
- :rules [[(movie-year title year)
-          ...]]}
+```clojure
+;; remove '#_' to uncomment the query
+#_(q '{:find [title]
+     :where [(movie-year title 1991)]
+     :rules [[(movie-year title year)
+              ...]]})
 ```
 
 Q2. Two people are friends if they have worked together in a movie. Write a rule `(friends p1 p2)` where `p1` and `p2` are person entities. Try with a few different `name` inputs to make sure you got it right. There might be some edge cases here.
 
-```edn no-exec
-{:find [friend]
- :in [name]
- :where [[p1 :person/name name]
-         (friends p1 p2)
-         [p2 :person/name friend]]
- :rules [[(friends p1 p2)
-          ...]]}
+```clojure
+;; remove '#_' to uncomment the query
+#_(q '{:find [friend]
+     :in [name]
+     :where [[p1 :person/name name]
+             (friends p1 p2)
+             [p2 :person/name friend]]
+     :rules [[(friends p1 p2)
+              ...]]})
 ```
 
 ## Solutions
