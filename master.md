@@ -2,15 +2,11 @@
 
 Learn Crux Datalog Today is derived from the classic [learndatalogtoday.org](http://learndatalogtoday.org) tutorial materials, but adapted to focus on the [Crux](https://opencrux.com) API and unique Datalog semantics, and extended with additional topics and exercises. It is an interactive tutorial designed to teach you the Crux dialect of Datalog. Datalog is a declarative database query language with roots in logic programming. Datalog has similar expressive power to SQL.
 
-You can follow along by hitting the "Remix" button on the toolbar to start your own interactive session running entirely on the Nextjournal platform, or you can copy the steps into a suitable Clojure REPL running locally on your machine. You could also use curl (or similar) to send the data and queries in this tutorial via HTTP to a pre-built Docker image.
+![Crux Datalog Icon](images/find-where-icon.png)
+
+You can follow along by hitting the "Remix" button on the toolbar to start your own interactive session running entirely on the Nextjournal platform, or you can copy the steps into a Clojure REPL running locally on your machine. You could also use curl (or similar) to send the data and queries in this tutorial via HTTP to a [https://opencrux.com/reference/installation.html#docker](pre-built Docker image).
 
 The `master.md` source file for this notebook is available on [GitHub](https://github.com/crux-labs/learn-crux-datalog-today).
-
-[Eclipse Public License - Version 1.0](https://github.com/crux-labs/learn-crux-datalog-today/blob/master/LICENSE.html)
-
-© 2013 - 2016 Jonas Enlund
-
-Thank you Jonas and contributors for freely licensing your excellent materials!
 
 # Runtime Setup
 
@@ -1293,3 +1289,11 @@ A2.
 # Conclusion
 
 Congratulations for making it through the tutorial - we hope this knowledge helps you in your Datalog journey! Any and all feedback is appreciated, as are new contributions, please email crux@juxt.pro or open an issue via [GitHub](https://github.com/crux-labs/learn-crux-datalog-today)
+
+# Copyright and License
+
+[Eclipse Public License - Version 1.0](https://github.com/crux-labs/learn-crux-datalog-today/blob/master/LICENSE.html)
+
+© 2013 - 2016 Jonas Enlund
+
+Thank you Jonas and contributors for freely licensing your excellent materials!
