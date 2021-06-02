@@ -38,17 +38,17 @@ GitHub, then reimport the entire notebook using the following instructions.
 1. Log in as the `learn-crux-datalog-today` Nextjournal user (ask @deobald, @refset, or @johantonelli for creds)
 2. Go to the [Nextjournal Dashboard](https://nextjournal.com/dashboard)
 3. Open the "Share" dialog (in the upper-right):
-  1. Select "Notebook Visibility: Private"
-  2. Select "Edit Slug" and change the slug to a name like `learn-crux-datalog-today-old-05` so it won't collide with the notebook you are about to import.
-  3. Select "Published Version: Unpublish this notebook..."
+   1. Select "Notebook Visibility: Private"
+   2. Select "Edit Slug" and change the slug to a name like `learn-crux-datalog-today-old-05` so it won't collide with the notebook you are about to import.
+   3. Select "Published Version: Unpublish this notebook..."
 7. Edit the title of the document to `"Learn Crux Datalog Today - Old05"` or something similar so it's easy to identify
 in the list of archived notebooks.
 8. Refresh the [Nextjournal Dashboard](https://nextjournal.com/dashboard). You should see `"Learn Crux Datalog Today - Old05"`
 in the list. Select "Actions: Archive". (At present, you cannot completely delete a notebook.)
 9. Follow the `"Installation"` instructions above, with the following additional steps from the "Share" dialog:
-  1. Select "Notebook Visibility: Public"
-  2. Select "Edit Slug" and change the slug to `learn-crux-datalog-today`
-  3. Select "Publish Changes"
+   1. Select "Notebook Visibility: Public"
+   2. Select "Edit Slug" and change the slug to `learn-crux-datalog-today`
+   3. Select "Publish Changes"
 10. Check to make sure the public URLs in the `"Quickstart"` work correctly.
 
 ## Copyright & License
