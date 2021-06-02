@@ -1,11 +1,11 @@
 # Learn Crux Datalog Today
 
-Learn Crux Datalog Today is derived from the classic [learndatalogtoday.org](http://learndatalogtoday.org) tutorial materials, but adapted to focus on the [Crux](https://opencrux.com) API and unique Datalog semantics.
+_Learn Crux Datalog Today_ is derived from the classic [learndatalogtoday.org](http://learndatalogtoday.org) tutorial materials, but adapted to focus on the [Crux](https://opencrux.com) API and unique Datalog semantics.
 
 ## Quickstart
 
-Read the tutorial: https://nextjournal.com/learn-crux-datalog-today/learn-crux-datalog-today
-Try online: https://nextjournal.com/try/learn-crux-datalog-today/learn-crux-datalog-today
+* Read the tutorial: https://nextjournal.com/learn-crux-datalog-today/learn-crux-datalog-today
+* Try online: https://nextjournal.com/try/learn-crux-datalog-today/learn-crux-datalog-today
 
 ## Installation
 
