@@ -48,7 +48,7 @@ in the list. Select "Actions: Archive". (At present, you cannot completely delet
 9. Follow the `"Installation"` instructions above, with the following additional steps from the "Share" dialog:
    1. Select "Notebook Visibility: Public"
    2. Select "Edit Slug" and change the slug to `learn-crux-datalog-today`
-   3. Select "Publish Changes"
+   3. Select "Publish Changes" to see the preview dialog. Click "Publish".
 10. Check to make sure the public URLs in the `"Quickstart"` work correctly.
 
 
