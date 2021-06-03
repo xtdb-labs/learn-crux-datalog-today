@@ -36,7 +36,7 @@ To reinstall the tutorial: Treat this GitHub repository as the golden store. Mak
 GitHub, then reimport the entire notebook using the following instructions.
 
 1. Log in as the `learn-crux-datalog-today` Nextjournal user (ask @deobald, @refset, or @johantonelli for creds)
-2. Go to the [Nextjournal Dashboard](https://nextjournal.com/dashboard)
+2. Go to the [Nextjournal Dashboard](https://nextjournal.com/dashboard) and open the "Learn Crux Datalog Today" notebook.
 3. Open the "Share" dialog (in the upper-right):
    1. Select "Notebook Visibility: Private"
    2. Select "Edit Slug" and change the slug to a name like `learn-crux-datalog-today-old-05` so it won't collide with the notebook you are about to import.
